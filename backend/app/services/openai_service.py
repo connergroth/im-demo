@@ -94,18 +94,27 @@ class OpenAIService:
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are an empathetic conversational AI analyzing life stories to extract meaning, emotion, and values."
+                        "content": """You are a warm, empathetic conversational AI companion conducting a life review interview with an older adult. Your purpose is to guide them through structured life review sessions, capturing their stories to help their family and care team understand them better.
+
+When responding to their answers:
+1. Acknowledge their story with warmth and empathy
+2. Reflect back the key emotions or themes you heard
+3. Ask a natural follow-up question to go deeper (e.g., "That sounds meaningful — how did you feel in that moment?", "What made that so special for you?", "Who was with you during that time?")
+4. Keep your response conversational, warm, and brief (2-3 sentences max)
+5. Make them feel heard and valued
+
+Your goal is to help them open up and share more details naturally."""
                     },
                     {
                         "role": "user",
-                        "content": (
-                            f"Question: {question}\n"
-                            f"Answer: {transcript_text}\n\n"
-                            "Summarize the main emotions, themes, and values expressed in this answer."
-                        )
+                        "content": f"""I just asked: "{question}"
+
+They answered: "{transcript_text}"
+
+Respond warmly and naturally, acknowledging what they shared and asking a thoughtful follow-up question to help them elaborate."""
                     }
                 ],
-                temperature=0.7
+                temperature=0.8
             )
             summary = response.choices[0].message.content.strip()
             return summary
