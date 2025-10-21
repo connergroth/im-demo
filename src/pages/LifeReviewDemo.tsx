@@ -333,24 +333,24 @@ const LifeReviewDemo = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 p-4">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <div className="min-h-screen bg-background">
+      <div className="max-w-6xl mx-auto p-6 space-y-6">
         {/* Header */}
-        <Card>
+        <Card className="shadow-[var(--shadow-soft)]">
           <CardHeader>
             <div className="flex justify-between items-start">
               <div>
-                <CardTitle className="text-3xl">Life Review AI Interview</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-3xl font-serif text-foreground">Life Review AI Interview</CardTitle>
+                <CardDescription className="text-muted-foreground">
                   Question {currentQuestionIndex + 1} of {questions.length}
                   {useCustomQuestions && " (Custom Questions)"}
                 </CardDescription>
               </div>
               <div className="flex items-center gap-2">
                 <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  backendStatus === 'online' ? 'bg-green-100 text-green-700' :
-                  backendStatus === 'offline' ? 'bg-red-100 text-red-700' :
-                  'bg-yellow-100 text-yellow-700'
+                  backendStatus === 'online' ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' :
+                  backendStatus === 'offline' ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300' :
+                  'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300'
                 }`}>
                   {backendStatus === 'online' ? '● Online' :
                    backendStatus === 'offline' ? '● Offline' :
@@ -372,13 +372,13 @@ const LifeReviewDemo = () => {
           <div className="space-y-6">
             {/* PDF Upload */}
             {currentQuestionIndex === 0 && responses.length === 0 && (
-              <Card>
+              <Card className="shadow-[var(--shadow-soft)]">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Upload className="h-5 w-5" />
+                  <CardTitle className="flex items-center gap-2 text-foreground">
+                    <Upload className="h-5 w-5 text-primary" />
                     Upload Custom Questions (Optional)
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-muted-foreground">
                     Upload a PDF with your own questions, or use our demo questions
                   </CardDescription>
                 </CardHeader>
@@ -388,6 +388,7 @@ const LifeReviewDemo = () => {
                     accept=".pdf"
                     onChange={handlePdfUpload}
                     disabled={isProcessing}
+                    className="border-border"
                   />
                   {useCustomQuestions && (
                     <Button onClick={handleResetDemo} variant="outline" className="w-full">
@@ -399,21 +400,21 @@ const LifeReviewDemo = () => {
             )}
 
             {/* Current Question */}
-            <Card>
+            <Card className="shadow-[var(--shadow-soft)]">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Volume2 className="h-5 w-5" />
+                <CardTitle className="flex items-center gap-2 text-foreground">
+                  <Volume2 className="h-5 w-5 text-primary" />
                   Current Question
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-lg font-medium mb-4">
+                <p className="text-lg font-medium mb-4 text-foreground">
                   {questions[currentQuestionIndex]}
                 </p>
                 {currentQuestionIndex === 0 && !isSpeaking && !isRecording && !transcript && (
                   <Button
                     onClick={handleStartInterview}
-                    className="w-full"
+                    className="w-full shadow-[var(--shadow-glow)] hover:shadow-[var(--shadow-soft)] transition-all duration-300"
                     disabled={backendStatus !== 'online'}
                   >
                     <PlayCircle className="mr-2 h-4 w-4" />
@@ -435,15 +436,15 @@ const LifeReviewDemo = () => {
             </Card>
 
             {/* Voice Settings */}
-            <Card>
+            <Card className="shadow-[var(--shadow-soft)]">
               <CardHeader>
-                <CardTitle>Voice Settings</CardTitle>
+                <CardTitle className="text-foreground">Voice Settings</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="voice">Voice Selection</Label>
+                  <Label htmlFor="voice" className="text-foreground">Voice Selection</Label>
                   <Select value={selectedVoice} onValueChange={setSelectedVoice}>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-border">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -456,7 +457,7 @@ const LifeReviewDemo = () => {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="duration">Recording Duration (seconds)</Label>
+                  <Label htmlFor="duration" className="text-foreground">Recording Duration (seconds)</Label>
                   <Input
                     id="duration"
                     type="number"
@@ -464,6 +465,7 @@ const LifeReviewDemo = () => {
                     max="120"
                     value={recordingDuration}
                     onChange={(e) => setRecordingDuration(Number(e.target.value))}
+                    className="border-border"
                   />
                 </div>
               </CardContent>
@@ -477,17 +479,17 @@ const LifeReviewDemo = () => {
             />
 
             {/* Recording Controls */}
-            <Card>
+            <Card className="shadow-[var(--shadow-soft)]">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Mic className="h-5 w-5" />
+                <CardTitle className="flex items-center gap-2 text-foreground">
+                  <Mic className="h-5 w-5 text-primary" />
                   Record Your Answer
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {isRecording && (
                   <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
+                    <div className="flex justify-between text-sm text-foreground">
                       <span>Recording...</span>
                       <span>{recordingTime}s / {recordingDuration}s</span>
                     </div>
@@ -498,14 +500,14 @@ const LifeReviewDemo = () => {
                 {isProcessing && (
                   <div className="flex items-center justify-center py-8">
                     <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                    <span className="ml-3">Processing your response...</span>
+                    <span className="ml-3 text-foreground">Processing your response...</span>
                   </div>
                 )}
 
                 {!isRecording && !isProcessing && !isSpeaking && (
                   <Button
                     onClick={startRecording}
-                    className="w-full"
+                    className="w-full shadow-[var(--shadow-glow)] hover:shadow-[var(--shadow-soft)] transition-all duration-300"
                     disabled={isSpeaking || backendStatus !== 'online'}
                   >
                     <Mic className="mr-2 h-4 w-4" />
@@ -530,7 +532,7 @@ const LifeReviewDemo = () => {
             {transcript && aiAnalysis && !isProcessing && (
               <Button
                 onClick={handleNextQuestion}
-                className="w-full"
+                className="w-full shadow-[var(--shadow-glow)] hover:shadow-[var(--shadow-soft)] transition-all duration-300"
                 disabled={currentQuestionIndex >= questions.length - 1}
               >
                 Next Question
@@ -548,24 +550,24 @@ const LifeReviewDemo = () => {
 
               <TabsContent value="current" className="space-y-4">
                 {transcript && (
-                  <Card>
+                  <Card className="shadow-[var(--shadow-soft)]">
                     <CardHeader>
-                      <CardTitle>Your Answer</CardTitle>
+                      <CardTitle className="text-foreground">Your Answer</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <Textarea
                         value={transcript}
                         readOnly
-                        className="min-h-[100px]"
+                        className="min-h-[100px] border-border bg-background text-foreground"
                       />
                     </CardContent>
                   </Card>
                 )}
 
                 {aiAnalysis && (
-                  <Card>
+                  <Card className="shadow-[var(--shadow-soft)]">
                     <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
+                      <CardTitle className="flex items-center gap-2 text-foreground">
                         AI Response
                         {isSpeaking && (
                           <span className="flex items-center text-sm font-normal text-muted-foreground">
@@ -576,7 +578,7 @@ const LifeReviewDemo = () => {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="prose prose-sm max-w-none">
+                      <div className="prose prose-sm max-w-none text-foreground">
                         {aiAnalysis}
                       </div>
                     </CardContent>
@@ -584,7 +586,7 @@ const LifeReviewDemo = () => {
                 )}
 
                 {!transcript && !aiAnalysis && (
-                  <Card>
+                  <Card className="shadow-[var(--shadow-soft)]">
                     <CardContent className="py-12 text-center text-muted-foreground">
                       Record your answer to see the transcription and AI analysis
                     </CardContent>
@@ -594,25 +596,25 @@ const LifeReviewDemo = () => {
 
               <TabsContent value="history" className="space-y-4">
                 {responses.length === 0 ? (
-                  <Card>
+                  <Card className="shadow-[var(--shadow-soft)]">
                     <CardContent className="py-12 text-center text-muted-foreground">
                       No responses yet. Answer questions to build your history.
                     </CardContent>
                   </Card>
                 ) : (
                   responses.map((response, idx) => (
-                    <Card key={idx}>
+                    <Card key={idx} className="shadow-[var(--shadow-soft)]">
                       <CardHeader>
-                        <CardTitle className="text-base">Question {idx + 1}</CardTitle>
-                        <CardDescription>{response.question}</CardDescription>
+                        <CardTitle className="text-base text-foreground">Question {idx + 1}</CardTitle>
+                        <CardDescription className="text-muted-foreground">{response.question}</CardDescription>
                       </CardHeader>
                       <CardContent className="space-y-3">
                         <div>
-                          <p className="text-sm font-medium mb-1">Your Answer:</p>
+                          <p className="text-sm font-medium mb-1 text-foreground">Your Answer:</p>
                           <p className="text-sm text-muted-foreground">{response.answer}</p>
                         </div>
                         <div>
-                          <p className="text-sm font-medium mb-1">AI Response:</p>
+                          <p className="text-sm font-medium mb-1 text-foreground">AI Response:</p>
                           <p className="text-sm text-muted-foreground">{response.analysis}</p>
                         </div>
                       </CardContent>
@@ -629,3 +631,4 @@ const LifeReviewDemo = () => {
 };
 
 export default LifeReviewDemo;
+
