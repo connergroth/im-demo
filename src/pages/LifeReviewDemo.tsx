@@ -578,7 +578,8 @@ const LifeReviewDemo = () => {
   const playTTSFromPath = async (ttsPath: string) => {
     try {
       // Fetch the audio file from the backend
-      const response = await fetch(`http://localhost:5001${ttsPath}`);
+      const API_BASE = import.meta.env.VITE_API_URL?.replace('/api', '') || 'https://life-review-api.fly.dev';
+      const response = await fetch(`${API_BASE}${ttsPath}`);
       if (!response.ok) {
         throw new Error('Failed to fetch TTS audio');
       }
