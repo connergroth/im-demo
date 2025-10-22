@@ -727,10 +727,10 @@ const LifeReviewDemo = () => {
           voiceMap[selectedVoice] as any
         );
         setFollowUpAnalysis(result.analysis);
-        
+
         // Update existing response with follow-up data
-        setResponses(prev => prev.map((response, idx) => 
-          idx === currentResponseIndex 
+        setResponses(prev => prev.map((response, idx) =>
+          idx === currentResponseIndex
             ? {
                 ...response,
                 followUpAnswer: transcriptText,
@@ -738,6 +738,11 @@ const LifeReviewDemo = () => {
               }
             : response
         ));
+
+        // Play the TTS audio for follow-up analysis
+        if (result.tts_path) {
+          await playTTSFromPath(result.tts_path);
+        }
       } else {
         if (isNameQuestion) {
           // For the name question, save the name and provide a simple acknowledgment
