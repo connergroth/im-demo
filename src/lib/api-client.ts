@@ -21,6 +21,12 @@ export interface AnalyzeResponse {
   analysis: string;
 }
 
+export interface AnalyzeAndTTSResponse {
+  success: boolean;
+  analysis: string;
+  tts_path: string;
+}
+
 export interface ApiError {
   error: string;
   message?: string;
@@ -66,18 +72,19 @@ class LifeReviewAPIClient {
   }
 
   /**
-   * Convert text to speech using the backend
+   * Convert text to speech using the backend with caching
    */
   async textToSpeech(
     text: string,
-    voice: 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer' = 'nova'
+    voice: 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer' = 'nova',
+    contentType: 'narrative' | 'question' | 'greeting' | 'outro' = 'narrative'
   ): Promise<Blob> {
     const response = await fetch(`${this.baseUrl}/text-to-speech`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ text, voice }),
+      body: JSON.stringify({ text, voice, content_type: contentType }),
     });
 
     if (!response.ok) {
@@ -126,6 +133,114 @@ class LifeReviewAPIClient {
     if (!response.ok) {
       const error: ApiError = await response.json();
       throw new Error(error.error || 'Failed to analyze response');
+    }
+
+    return response.json();
+  }
+
+  /**
+   * Analyze response and generate TTS in parallel for maximum speed
+   */
+  async analyzeAndTTS(
+    question: string,
+    answer: string,
+    voice: 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer' = 'nova'
+  ): Promise<AnalyzeAndTTSResponse> {
+    const response = await fetch(`${this.baseUrl}/analyze-and-tts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ question, answer, voice }),
+    });
+
+    if (!response.ok) {
+      const error: ApiError = await response.json();
+      throw new Error(error.error || 'Failed to analyze and generate TTS');
+    }
+
+    return response.json();
+  }
+
+  /**
+   * Analyze a follow-up response with context from the original question and answer
+   */
+  async analyzeFollowup(
+    originalQuestion: string,
+    originalAnswer: string,
+    followupAnswer: string,
+    voice: 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer' = 'nova'
+  ): Promise<AnalyzeAndTTSResponse> {
+    const response = await fetch(`${this.baseUrl}/analyze-followup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 
+        original_question: originalQuestion, 
+        original_answer: originalAnswer, 
+        followup_answer: followupAnswer, 
+        voice 
+      }),
+    });
+
+    if (!response.ok) {
+      const error: ApiError = await response.json();
+      throw new Error(error.error || 'Failed to analyze follow-up response');
+    }
+
+    return response.json();
+  }
+
+  /**
+   * Analyze a complete life review session
+   */
+  async analyzeSession(sessionData: Array<{question: string, answer: string}>): Promise<any> {
+    const response = await fetch(`${this.baseUrl}/analyze-session`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ session_data: sessionData }),
+    });
+
+    if (!response.ok) {
+      const error: ApiError = await response.json();
+      throw new Error(error.error || 'Failed to analyze session');
+    }
+
+    return response.json();
+  }
+
+  /**
+   * Pre-cache narratives for faster loading
+   */
+  async preCacheNarratives(voice: 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer' = 'nova'): Promise<any> {
+    const response = await fetch(`${this.baseUrl}/pre-cache-narratives`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ voice }),
+    });
+
+    if (!response.ok) {
+      const error: ApiError = await response.json();
+      throw new Error(error.error || 'Failed to pre-cache narratives');
+    }
+
+    return response.json();
+  }
+
+  /**
+   * Get cache statistics
+   */
+  async getCacheStats(): Promise<any> {
+    const response = await fetch(`${this.baseUrl}/cache-stats`);
+
+    if (!response.ok) {
+      const error: ApiError = await response.json();
+      throw new Error(error.error || 'Failed to get cache stats');
     }
 
     return response.json();

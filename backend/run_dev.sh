@@ -31,15 +31,25 @@ if [ ! -f "venv/installed.marker" ]; then
     echo ""
 fi
 
+# Load environment variables from .env
+if [ -f .env ]; then
+    echo "📝 Loading environment variables from .env..."
+    export $(cat .env | grep -v '^#' | xargs)
+    echo ""
+fi
+
 # Check for OpenAI API key
-if ! grep -q "OPENAI_API_KEY=sk-" .env; then
+if [ -z "$OPENAI_API_KEY" ] || ! echo "$OPENAI_API_KEY" | grep -q "sk-"; then
     echo "⚠️  WARNING: OPENAI_API_KEY not set in .env file"
     echo "Please add your OpenAI API key to continue"
     echo ""
 fi
 
+# Get port from .env or default to 5001
+PORT=${PORT:-5001}
+
 # Run the application
-echo "✅ Starting Flask server on http://localhost:8080"
+echo "✅ Starting Flask server on http://localhost:$PORT"
 echo "Press Ctrl+C to stop"
 echo ""
 

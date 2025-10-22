@@ -8,99 +8,56 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 340 30% 98%;
-    --foreground: 330 15% 25%;
+    /* Clean palette for seniors: beige, black, white, baby pink */
+    --background: 40 30% 97%;
+    --foreground: 0 0% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 330 15% 25%;
+    --card-foreground: 0 0% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 330 15% 25%;
+    --popover-foreground: 0 0% 10%;
 
-    --primary: 340 65% 75%;
-    --primary-foreground: 0 0% 100%;
+    /* Baby pink primary */
+    --primary: 340 75% 85%;
+    --primary-foreground: 0 0% 10%;
 
-    --secondary: 340 30% 95%;
-    --secondary-foreground: 330 15% 25%;
+    /* Warm beige secondary */
+    --secondary: 40 25% 88%;
+    --secondary-foreground: 0 0% 10%;
 
-    --muted: 340 20% 92%;
-    --muted-foreground: 330 10% 45%;
+    /* Soft muted tones */
+    --muted: 40 20% 92%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 280 15% 85%;
-    --accent-foreground: 330 15% 25%;
+    /* Accent baby pink */
+    --accent: 340 70% 88%;
+    --accent-foreground: 0 0% 10%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 340 20% 90%;
-    --input: 340 20% 90%;
-    --ring: 340 65% 75%;
+    --border: 40 15% 90%;
+    --input: 40 15% 90%;
+    --ring: 340 75% 85%;
 
     --radius: 1rem;
+
+    /* Custom design tokens */
+    --baby-pink: 340 75% 85%;
+    --baby-pink-light: 340 70% 92%;
+    --warm-beige: 40 25% 88%;
+    --soft-beige: 40 30% 95%;
+    --cream: 40 30% 97%;
     
-    --gradient-hero: linear-gradient(135deg, hsl(340 65% 75% / 0.1), hsl(280 15% 85% / 0.15));
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(340 30% 98%));
-    --shadow-soft: 0 4px 20px hsl(340 40% 80% / 0.15);
-    --shadow-glow: 0 0 30px hsl(340 65% 75% / 0.2);
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 330 20% 12%;
-    --foreground: 340 30% 95%;
-
-    --card: 330 20% 15%;
-    --card-foreground: 340 30% 95%;
-
-    --popover: 330 20% 15%;
-    --popover-foreground: 340 30% 95%;
-
-    --primary: 340 65% 65%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 330 15% 20%;
-    --secondary-foreground: 340 30% 95%;
-
-    --muted: 330 15% 20%;
-    --muted-foreground: 340 20% 65%;
-
-    --accent: 280 15% 25%;
-    --accent-foreground: 340 30% 95%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 330 15% 20%;
-    --input: 330 15% 20%;
-    --ring: 340 65% 65%;
+    /* Gradients */
+    --gradient-pink: linear-gradient(135deg, hsl(340 75% 90%), hsl(340 75% 85%));
+    --gradient-warm: linear-gradient(135deg, hsl(40 30% 97%), hsl(340 70% 95%));
+    --gradient-hero: linear-gradient(180deg, hsl(40 30% 97%), hsl(340 60% 96%));
     
-    --gradient-hero: linear-gradient(135deg, hsl(340 65% 25% / 0.3), hsl(280 15% 20% / 0.4));
-    --gradient-card: linear-gradient(180deg, hsl(330 20% 15%), hsl(330 20% 12%));
-    --shadow-soft: 0 4px 20px hsl(0 0% 0% / 0.3);
-    --shadow-glow: 0 0 30px hsl(340 65% 45% / 0.15);
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -4px hsl(0 0% 0% / 0.08);
+    --shadow-glow: 0 0 40px hsl(340 75% 85% / 0.2);
   }
 }
 
@@ -114,3 +71,68 @@ All colors MUST be HSL.
   }
 }
 
+@layer utilities {
+  /* Floating orb animations */
+  @keyframes ping-slow {
+    75%, 100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+
+  @keyframes ping-slower {
+    75%, 100% {
+      transform: scale(1.8);
+      opacity: 0;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes shimmer-fast {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-ping-slow {
+    animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  .animate-ping-slower {
+    animation: ping-slower 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  .animate-shimmer-fast {
+    animation: shimmer-fast 1.5s ease-in-out infinite;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out forwards;
+  }
+}

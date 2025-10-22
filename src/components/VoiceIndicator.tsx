@@ -1,6 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Mic, Volume2 } from "lucide-react";
-
 interface VoiceIndicatorProps {
   isActive: boolean;
   isSpeaking: boolean;
@@ -13,32 +10,53 @@ const VoiceIndicator = ({ isActive, isSpeaking, isListening }: VoiceIndicatorPro
   }
 
   return (
-    <Card className="shadow-[var(--shadow-soft)]">
-      <CardContent className="py-6">
-        <div className="flex items-center justify-center space-x-4">
-          {isSpeaking && (
-            <div className="flex items-center space-x-2 text-primary">
-              <Volume2 className="h-6 w-6 animate-pulse" />
-              <span className="font-medium">AI is speaking...</span>
-            </div>
-          )}
-          
+    <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none">
+      {/* Main floating orb */}
+      <div className="relative flex items-center justify-center">
+        {/* Outer glow rings - animate outward */}
+        <div className={`absolute inset-0 rounded-full bg-pink-300/30 blur-2xl ${
+          isSpeaking ? 'animate-ping-slow scale-150' : 'animate-pulse scale-125'
+        }`} style={{ width: '200px', height: '200px' }} />
+
+        <div className={`absolute inset-0 rounded-full bg-pink-200/40 blur-xl ${
+          isSpeaking ? 'animate-ping-slower scale-125' : 'animate-pulse scale-110'
+        }`} style={{ width: '160px', height: '160px' }} />
+
+        {/* Main orb */}
+        <div className={`relative rounded-full bg-gradient-to-br from-pink-200 via-pink-300 to-pink-400 shadow-2xl transition-all duration-700 ${
+          isSpeaking ? 'scale-110' : isListening ? 'scale-105' : 'scale-100'
+        }`} style={{ width: '120px', height: '120px' }}>
+          {/* Inner glow */}
+          <div className="absolute inset-2 rounded-full bg-gradient-to-br from-pink-100/60 to-transparent animate-pulse" />
+
+          {/* Shimmer effect */}
+          <div className="absolute inset-0 rounded-full overflow-hidden">
+            <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent ${
+              isSpeaking ? 'animate-shimmer-fast' : 'animate-shimmer'
+            }`} style={{ width: '200%' }} />
+          </div>
+
+          {/* Listening waves - concentric circles that pulse */}
           {isListening && (
-            <div className="flex items-center space-x-2 text-primary">
-              <Mic className="h-6 w-6 animate-pulse" />
-              <span className="font-medium">Listening...</span>
-            </div>
-          )}
-          
-          {!isSpeaking && !isListening && isActive && (
-            <div className="flex items-center space-x-2 text-muted-foreground">
-              <div className="h-3 w-3 rounded-full bg-primary animate-pulse"></div>
-              <span className="font-medium">Voice active</span>
-            </div>
+            <>
+              <div className="absolute inset-0 rounded-full border-2 border-pink-400/40 animate-ping" style={{ animationDuration: '1.5s' }} />
+              <div className="absolute inset-0 rounded-full border-2 border-pink-300/30 animate-ping" style={{ animationDuration: '2s', animationDelay: '0.3s' }} />
+              <div className="absolute inset-0 rounded-full border-2 border-pink-200/20 animate-ping" style={{ animationDuration: '2.5s', animationDelay: '0.6s' }} />
+            </>
           )}
         </div>
-      </CardContent>
-    </Card>
+
+        {/* Status text below orb */}
+        <div className="absolute top-full mt-8 text-center pointer-events-none whitespace-nowrap">
+          <p className="text-sm font-light tracking-wide text-foreground/60">
+            {isSpeaking ? 'AI is speaking...' : isListening ? 'Listening...' : 'Voice active'}
+          </p>
+        </div>
+      </div>
+
+      {/* Background overlay to dim content */}
+      <div className="fixed inset-0 bg-background/60 backdrop-blur-sm -z-10" />
+    </div>
   );
 };
 

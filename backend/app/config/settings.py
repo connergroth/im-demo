@@ -9,6 +9,11 @@ class Config:
 
     # API Keys
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+    ASSEMBLYAI_API_KEY = os.getenv('ASSEMBLYAI_API_KEY')
+    
+    # Supabase configuration for permanent caching
+    SUPABASE_URL = os.getenv('SUPABASE_URL')
+    SUPABASE_SERVICE_KEY = os.getenv('SUPABASE_SERVICE_KEY')
 
     # Flask settings
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
@@ -23,10 +28,10 @@ class Config:
     ALLOWED_EXTENSIONS = {'pdf'}
 
     # OpenAI settings
-    TTS_MODEL = "tts-1"
+    TTS_MODEL = "tts-1-hd"  # Higher quality, still fast
     TTS_VOICE = "nova"
     WHISPER_MODEL = "whisper-1"
-    CHAT_MODEL = "gpt-4o-mini"
+    CHAT_MODEL = "gpt-3.5-turbo"  # Faster response time
 
     # Recording settings
     DEFAULT_RECORDING_DURATION = 30

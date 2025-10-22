@@ -33,6 +33,13 @@ def create_app(config_name=None):
     # Register blueprints
     app.register_blueprint(api_bp)
 
+    # Serve static files from /tmp directory for TTS cache
+    @app.route('/tmp/<path:filename>')
+    def serve_tmp_file(filename):
+        """Serve files from /tmp directory (for TTS cache)"""
+        from flask import send_from_directory
+        return send_from_directory('/tmp', filename)
+
     # Root route
     @app.route('/')
     def index():
