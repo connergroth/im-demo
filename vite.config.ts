@@ -13,7 +13,10 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      ...(process.env.VERCEL ? { "@elevenlabs/react": path.resolve(__dirname, "./src/shims/elevenlabs-react.ts") } : {}),
+      // Gate the shim behind an explicit flag so production uses the real SDK
+      ...(process.env.VITE_USE_ELEVENLABS_SHIM === 'true'
+        ? { "@elevenlabs/react": path.resolve(__dirname, "./src/shims/elevenlabs-react.ts") }
+        : {}),
     },
   },
 }));
