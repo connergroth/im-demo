@@ -92,6 +92,27 @@ export default {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.95" },
         },
+        "gentle-pulse": {
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.85", transform: "scale(1.05)" },
+        },
+        "listening-pulse": {
+          "0%, 100%": { transform: "scale(1)", opacity: "1" },
+          "50%": { transform: "scale(1.15)", opacity: "0.8" },
+        },
+        "wave": {
+          "0%, 100%": { transform: "scaleY(1)" },
+          "50%": { transform: "scaleY(1.3)" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0) rotate(0deg)" },
+          "33%": { transform: "translateY(-15px) rotate(5deg)" },
+          "66%": { transform: "translateY(-8px) rotate(-5deg)" },
+        },
+        "glow-pulse": {
+          "0%, 100%": { opacity: "0.4", transform: "scale(1)" },
+          "50%": { opacity: "0.6", transform: "scale(1.05)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -101,6 +122,11 @@ export default {
         "scale-in": "scale-in 0.5s ease-out",
         "slide-up": "slide-up 0.8s ease-out",
         "pulse-subtle": "pulse-subtle 2s ease-in-out infinite",
+        "gentle-pulse": "gentle-pulse 2.5s ease-in-out infinite",
+        "listening-pulse": "listening-pulse 1.2s ease-in-out infinite",
+        "wave": "wave 1.5s ease-in-out infinite",
+        "float": "float 4s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 2s ease-in-out infinite",
       },
     },
   },
