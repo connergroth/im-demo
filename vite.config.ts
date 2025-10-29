@@ -13,6 +13,7 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      ...(process.env.VERCEL ? { "@elevenlabs/react": path.resolve(__dirname, "./src/shims/elevenlabs-react.ts") } : {}),
     },
   },
 }));
